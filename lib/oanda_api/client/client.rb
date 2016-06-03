@@ -159,8 +159,9 @@ module OandaAPI
     #
     # @return [void]
     def self.throttle_request_rate
+      last_req_time = (self.last_request_at || Time.now)
       now = Time.now
-      delta = now - (last_request_at || now)
+      delta = now - last_req_time
       _throttle(delta, now) if delta < OandaAPI.configuration.min_request_interval &&
                                        OandaAPI.configuration.use_request_throttling?
       self.last_request_at = Time.now
